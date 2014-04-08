@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Outrun2" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Outrun2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-std=c++0x" />
+					<Add option="-g" />
+					<Add option="-fpermissive -Wunused-function" />
+					<Add directory="TVoutfonts" />
+					<Add directory="TVoutSFML" />
+					<Add directory="Controllers" />
+					<Add directory="Game" />
+					<Add directory="Graphics" />
+				</Compiler>
+				<Linker>
+					<Add library="sfml-graphics" />
+					<Add library="sfml-window" />
+					<Add library="sfml-system" />
+					<Add directory="TVoutfonts" />
+					<Add directory="TVoutSFML" />
+					<Add directory="Controllers" />
+					<Add directory="Game" />
+					<Add directory="Graphics" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="Controllers/ButtonController.cpp" />
+		<Unit filename="Controllers/ButtonController.h" />
+		<Unit filename="Controllers/Controllers.h" />
+		<Unit filename="Controllers/LICENSE.txt" />
+		<Unit filename="Game/game.cpp" />
+		<Unit filename="Game/game.h" />
+		<Unit filename="Game/world.cpp" />
+		<Unit filename="Graphics/ferrari.cpp" />
+		<Unit filename="Graphics/ferrari.h" />
+		<Unit filename="Graphics/sky.h" />
+		<Unit filename="Graphics/sky2.cpp" />
+		<Unit filename="TVoutSFML/Overlay.cpp" />
+		<Unit filename="TVoutSFML/SFMLRenderTV.cpp" />
+		<Unit filename="TVoutSFML/TVOlogo.cpp" />
+		<Unit filename="TVoutSFML/TVout.cpp" />
+		<Unit filename="TVoutSFML/TVout.h" />
+		<Unit filename="TVoutSFML/TVoutPrint.cpp" />
+		<Unit filename="TVoutSFML/schematic.cpp" />
+		<Unit filename="TVoutSFML/wrapper.cpp" />
+		<Unit filename="TVoutSFML/wrapper.h" />
+		<Unit filename="TVoutfonts/font4x6.cpp" />
+		<Unit filename="TVoutfonts/font4x6.h" />
+		<Unit filename="TVoutfonts/font6x8.cpp" />
+		<Unit filename="TVoutfonts/font6x8.h" />
+		<Unit filename="TVoutfonts/font8x8.cpp" />
+		<Unit filename="TVoutfonts/font8x8.h" />
+		<Unit filename="TVoutfonts/font8x8ext.cpp" />
+		<Unit filename="TVoutfonts/font8x8ext.h" />
+		<Unit filename="TVoutfonts/fontALL.h" />
+		<Unit filename="TVoutfonts/keywords.txt" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

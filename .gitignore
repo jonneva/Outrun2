@@ -1,0 +1,7 @@
+bin/
+obj/
+*.psd
+*.bmp
+*.7z
+*.xls
+ZZZ/
