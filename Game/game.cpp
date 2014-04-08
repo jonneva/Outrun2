@@ -25,8 +25,9 @@ int z_car=0,zspeed = 0, wheeltick=0, carx=TVXCENTER-16,cary=CARY,
     skyx=0,segment=0,osegment=0,curvtime=0,curvcount=0;
 
 
-byte lanes=3,car_dir=UP,lastRoad,segvisible;
+byte lanes=3,car_dir=UP,lastRoad,segvisible=false;
 signed char wheeloffset=0;
+unsigned long tAppeared;
 
 
 //=========================================================================
@@ -103,17 +104,27 @@ void drawRoad() {
     int yTransition = HORIZON,curvacceltop=0,curvaccelbot=0,curvoffset=0;
     int q_step,q_pointer,yApex;
 
+
     // determine segment transition points
     ztemp = (z_world >> SEGSLOWDOWN) & (SEGLENGTH-1);
-    ztemp = SEGLENGTH - ztemp;
+    ztemp = SEGLENGTH - ztemp; // segment edges otherwise come too late
 
     //check if transition points are within visible range
-    if (ztemp > 600 && ztemp < 800) segvisible = true;
-    if (ztemp < 512 && segvisible) { // was 512
-        yTransition = HORIZON + (Y_CAMERA / (ztemp+1));
+    if (!segvisible && ztemp > 900) { //was 600 and 800
+        segvisible = true;
+        //yTransition = HORIZON+1;
+        yTransition = HORIZON;
+        tAppeared = z_world;
+    }
+
+    if (segvisible) { // was 512
+        //yTransition = HORIZON + (Y_CAMERA / (ztemp+1));
+        //yTransition = HORIZON + 1 + (z_world - tAppeared)/128;
+        yTransition = HORIZON+1+(SEGLENGTH-ztemp)/8;
+        //yTransition += zspeed/100;
         q_step = YTABS;
         q_step *= 256; // some weird compiler bug
-        q_step = q_step/(yTransition-HORIZON-1);
+        q_step = q_step/(yTransition-HORIZON);
         if (yTransition >= TVY) {
             segment++;
             segvisible = false;

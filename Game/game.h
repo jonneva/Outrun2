@@ -14,7 +14,7 @@
 
 // GAME SETUP CONSTANTS
 
-#define SEGLENGTH   1024    // segment length = 2048
+#define SEGLENGTH   1024   // segment length = 2048
 #define SEGSLOWDOWN 2       // divide world z progress by 2^SEGSLOWDOWN to slow segment change
 #define ZLINES      2  // number of rumble segments
 #define ZSTEP       32  // length of rumble segments
