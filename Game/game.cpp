@@ -22,12 +22,11 @@ int drawn=0;
 unsigned long z_world=0;
 int z_car=0,zspeed = 0, wheeltick=0, carx=TVXCENTER-16,cary=CARY,
     acceltick=ACCELTIME, deceltick=1,fumeframe=0,roadx=0,skytick=0,
-    skyx=0,segment=0,osegment=0,curvtime=0,curvcount=0;
+    skyx=0,segment=0,osegment=0,curvtime=0,curvcount=0,xaccel=0;
 
 
-byte lanes=3,car_dir=UP,lastRoad,segvisible=false;
+byte lanes=3,car_dir=UP,lastRoad,segvisible=false,curveover=true;
 signed char wheeloffset=0;
-unsigned long tAppeared;
 
 
 //=========================================================================
@@ -100,9 +99,9 @@ void checkSegment() {
 //=========================================================================
 
 void drawRoad() {
-    unsigned int ztemp,zapex;
+    unsigned int ztemp;
     int yTransition = HORIZON,curvacceltop=0,curvaccelbot=0,curvoffset=0;
-    int q_step,q_pointer,yApex;
+    int q_step,q_pointer;
 
 
     // determine segment transition points
@@ -112,19 +111,15 @@ void drawRoad() {
     //check if transition points are within visible range
     if (!segvisible && ztemp > 900) { //was 600 and 800
         segvisible = true;
-        //yTransition = HORIZON+1;
         yTransition = HORIZON;
-        tAppeared = z_world;
     }
 
     if (segvisible) { // was 512
-        //yTransition = HORIZON + (Y_CAMERA / (ztemp+1));
-        //yTransition = HORIZON + 1 + (z_world - tAppeared)/128;
         yTransition = HORIZON+1+(SEGLENGTH-ztemp)/8;
-        //yTransition += zspeed/100;
         q_step = YTABS;
         q_step *= 256; // some weird compiler bug
         q_step = q_step/(yTransition-HORIZON);
+        // reset transition
         if (yTransition >= TVY) {
             segment++;
             segvisible = false;
@@ -132,11 +127,19 @@ void drawRoad() {
         }
     }
 
+
     // set up curve counter
     if (track1[segment]&CURVERIGHT) {curvaccelbot=1;}
     if (track1[segment]&CURVELEFT) {curvaccelbot=-1;}
     if (track1[segment+1]&CURVERIGHT) {curvacceltop=1;}
     if (track1[segment+1]&CURVELEFT) {curvacceltop=-1;}
+
+    // effect of road on car
+    if (yTransition < TVY-25) {
+        roadx += curvaccelbot*(zspeed/100);
+        } else if (yTransition < TVY-15) roadx += curvaccelbot*(zspeed/200);
+
+
 
     // draw ground
     #ifdef GROUND
@@ -146,15 +149,17 @@ void drawRoad() {
 
         poffset = roadx*xlookup[q]/DXDIV;
         if (screeny < yTransition) {
+            // road ABOVE transition
             q_pointer = ((yTransition-screeny+1)*q_step)/256;
             if(q_pointer>YTABS) q_pointer=YTABS;
             curvoffset += curvacceltop*curvature[q_pointer];
         } else {
-            q_pointer=q;
+            // road BELOW transition
+            curvcount = yTransition - HORIZON;
+            q_pointer = q-curvcount;
+            if (q_pointer<0) q_pointer = 0;
             curvoffset += curvaccelbot*curvature[q_pointer];
-            curvcount = ztemp;
         }
-
 
         a = TVXCENTER - xlookup[q] + poffset + curvoffset;
         a2 = TVXCENTER - (xlookup[q]>>1) + poffset + curvoffset;
@@ -175,7 +180,9 @@ void drawRoad() {
 
          // check if a or b are out of bounds and draw road sides
         if (a>=0) TV.draw_line (0,screeny,a,screeny,1);
+        if (a>TVX) TV.draw_line (0,screeny,TVX,screeny,1);
         if (b<=TVX) TV.draw_line (b,screeny,TVX,screeny,1);
+        if (b<0) TV.draw_line (0,screeny,TVX,screeny,1);
 
         // draw rumbles
         zy = zlookup[q];
@@ -207,9 +214,6 @@ void drawRoad() {
     #ifdef SEGMENTS
         if (yTransition > HORIZON && yTransition <TVY ) {
         TV.draw_line(0,yTransition,TVX,yTransition,1);
-        }
-        if (yApex > HORIZON && yApex <TVY ) {
-        TV.draw_line(0,yApex,TVX,yApex,1);
         }
     #endif // SEGMENTS
 

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="Controllers/LICENSE.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="527" topLine="45" />
-		</Cursor>
-	</File>
 	<File name="TVoutSFML/wrapper.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="236" topLine="0" />
@@ -16,24 +11,29 @@
 			<Collapse line="15" />
 		</Folding>
 	</File>
-	<File name="Graphics/ferrari.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="358" topLine="0" />
+			<Cursor1 position="2661" topLine="63" />
 		</Cursor>
 	</File>
-	<File name="Game/game.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Game/game.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3447" topLine="108" />
+			<Cursor1 position="2754" topLine="55" />
 		</Cursor>
 	</File>
-	<File name="TVoutSFML/wrapper.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Graphics/sky.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="383" topLine="0" />
+			<Cursor1 position="454" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="TVoutSFML/SFMLRenderTV.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Controllers/LICENSE.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1869" topLine="57" />
+			<Cursor1 position="527" topLine="45" />
+		</Cursor>
+	</File>
+	<File name="Controllers/ButtonController.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="897" topLine="19" />
 		</Cursor>
 	</File>
 	<File name="TVoutSFML/TVout.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -56,31 +56,14 @@
 			<Collapse line="296" />
 		</Folding>
 	</File>
-	<File name="Graphics/sky2.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Controllers/ButtonController.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3125" topLine="15" />
+			<Cursor1 position="1213" topLine="33" />
 		</Cursor>
 		<Folding>
-			<Collapse line="2" />
-			<Collapse line="37" />
-			<Collapse line="70" />
-			<Collapse line="89" />
-			<Collapse line="103" />
-			<Collapse line="117" />
-			<Collapse line="129" />
-			<Collapse line="141" />
-			<Collapse line="156" />
-			<Collapse line="171" />
-			<Collapse line="191" />
-			<Collapse line="211" />
-			<Collapse line="239" />
-			<Collapse line="269" />
+			<Collapse line="20" />
+			<Collapse line="24" />
 		</Folding>
-	</File>
-	<File name="Game/game.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="780" topLine="4" />
-		</Cursor>
 	</File>
 	<File name="Graphics/ferrari.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
@@ -90,29 +73,9 @@
 			<Collapse line="2" />
 		</Folding>
 	</File>
-	<File name="Controllers/Controllers.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Game/world.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="74" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Controllers/ButtonController.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="897" topLine="19" />
-		</Cursor>
-	</File>
-	<File name="TVoutSFML/TVOlogo.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="21" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Graphics/sky.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="454" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="764" topLine="57" />
+			<Cursor1 position="14" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="TVoutSFML/Overlay.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -137,33 +100,74 @@
 			<Collapse line="149" />
 		</Folding>
 	</File>
+	<File name="TVoutSFML/TVOlogo.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="21" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="TVoutSFML/TVoutPrint.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="3850" topLine="199" />
 		</Cursor>
 	</File>
-	<File name="TVoutSFML/TVout.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Game/game.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6998" topLine="199" />
-		</Cursor>
-	</File>
-	<File name="Controllers/ButtonController.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1213" topLine="33" />
+			<Cursor1 position="3895" topLine="46" />
 		</Cursor>
 		<Folding>
-			<Collapse line="20" />
-			<Collapse line="24" />
+			<Collapse line="43" />
+			<Collapse line="92" />
 		</Folding>
+	</File>
+	<File name="Graphics/sky2.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3125" topLine="15" />
+		</Cursor>
+		<Folding>
+			<Collapse line="2" />
+			<Collapse line="37" />
+			<Collapse line="70" />
+			<Collapse line="89" />
+			<Collapse line="103" />
+			<Collapse line="117" />
+			<Collapse line="129" />
+			<Collapse line="141" />
+			<Collapse line="156" />
+			<Collapse line="171" />
+			<Collapse line="191" />
+			<Collapse line="211" />
+			<Collapse line="239" />
+			<Collapse line="269" />
+		</Folding>
+	</File>
+	<File name="TVoutSFML/TVout.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7207" topLine="199" />
+		</Cursor>
 	</File>
 	<File name="TVoutfonts/font6x8.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Game/world.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Controllers/Controllers.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14" topLine="0" />
+			<Cursor1 position="74" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="TVoutSFML/SFMLRenderTV.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1869" topLine="57" />
+		</Cursor>
+	</File>
+	<File name="TVoutSFML/wrapper.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="383" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Graphics/ferrari.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="358" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
