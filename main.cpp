@@ -24,9 +24,10 @@ void setup() {
 
 void loop() {
     TV.delay_frame(10);
+    TV.draw_rect(0,0,TVX,dynamichz,0,0);
     drawSky(0,0);
     updateHUD();
-    if (track1[segment]==0xff) segment = 0;
+    if (track1[segment+1]==0xff) segment = 0;
     drawRoad();
     updatecar();
 
@@ -35,9 +36,17 @@ void loop() {
 void updateHUD(){
     //TV.draw_line(0,HORIZON+1,TVX,HORIZON+1,1);
     TV.print(TVXCENTER+20,1,"      ");
-    TV.print(0,1,z_world);
-    TV.print(0,8,"     ");
-    TV.print(0,8,curvcount);
+    //TV.print(0,1,z_world);
+    TV.print(0,0,"       ");
+    //TV.print(0,8,dynamichz);
+    if (hillstate==0) TV.print(0,0,"FLAT");
+    if (hillstate==1) TV.print(0,0,"HILLC");
+    if (hillstate==2) TV.print(0,0,"UP");
+    if (hillstate==3) TV.print(0,0,"CREST");
+    if (hillstate==4) TV.print(0,0,"DROP");
+    if (hillstate==5) TV.print(0,0,"DROP2");
+    if (hillstate==6) TV.print(0,0,"DOWN");
+    if (hillstate==7) TV.print(0,0,"VALLEY");
     if (zspeed < 10) TV.print(TVXCENTER+20+3*6,1,zspeed);
     else if (zspeed < 100) TV.print(TVXCENTER+20+2*6,1,zspeed);
     if (zspeed > 100) TV.print(TVXCENTER+20+1*6,1,zspeed);

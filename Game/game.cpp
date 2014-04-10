@@ -19,13 +19,13 @@ int xcars[NUMCARS];
 int zcars[NUMCARS];
 int drawn=0;
 
-unsigned long z_world=0;
+unsigned long z_world=0,nextz,nexto;
 int z_car=0,zspeed = 0, wheeltick=0, carx=TVXCENTER-16,cary=CARY,
     acceltick=ACCELTIME, deceltick=1,fumeframe=0,roadx=0,skytick=0,
-    skyx=0,segment=0,osegment=0,curvtime=0,curvcount=0,xaccel=0;
+    skyx=0,segment=0,osegment=0,curvtime=0,curvcount=0,xaccel=0,dynamichz=HORIZON;
 
-
-byte lanes=3,car_dir=UP,lastRoad,segvisible=false,curveover=true;
+int nexthill,nexthz,hilloffset=256;
+byte lanes=3,car_dir=UP,lastRoad,segvisible=false,curveover=true,hillstate;
 signed char wheeloffset=0;
 
 
@@ -68,11 +68,11 @@ void gameSetup() {
     xcars[3] = -35;
 
     // lookup table for z and road sides
-    float ztemp;
-    for (int y=TVY-1; y>=HORIZON ;y--) {
-        int zy=HORIZON;
-        if (y - HORIZON > 0) {zy = Y_CAMERA / (y-HORIZON);
-        } else { break;}
+    float ztemp, yxtra=1;
+    for (int y=TVY-1; y>=dynamichz-XTRA ;y--) {
+        int zy=dynamichz;
+        if (y - dynamichz > 0) {zy = Y_CAMERA / (y-dynamichz);
+        } else { yxtra *= 1.5; zy=Y_CAMERA*yxtra; }
         zlookup[k] = zy;
         ztemp = (((float)ROADW/(float)zy)*(float)Z_MULT);
         xlookup[k] = 2*ztemp;
@@ -81,7 +81,7 @@ void gameSetup() {
     // road curvature table
 
     for (k=0; k<YTABS+5;k++) {
-        curvature[k] = k*k/300;
+        curvature[k] = k*k/500; // was 300
     }
 
 }
@@ -99,8 +99,8 @@ void checkSegment() {
 //=========================================================================
 
 void drawRoad() {
-    unsigned int ztemp;
-    int yTransition = HORIZON,curvacceltop=0,curvaccelbot=0,curvoffset=0;
+    unsigned int ztemp, easeout = true;
+    int yTransition = dynamichz,curvacceltop=0,curvaccelbot=0,curvoffset=0;
     int q_step,q_pointer;
 
 
@@ -111,19 +111,114 @@ void drawRoad() {
     //check if transition points are within visible range
     if (!segvisible && ztemp > 900) { //was 600 and 800
         segvisible = true;
-        yTransition = HORIZON;
+        yTransition = dynamichz;
+        nextz = z_world+ZTICKER*3;
+        nexto = z_world+ZTICKER;
     }
 
+    // determine hill state
+    // seg  seg+1   seg+2   equals
+    // flat flat    flat    FLATLAND
+    // flat flat    up      HILLCOMING
+    // flat up      any     UPSLOPE
+    // up   up      any     UPSLOPE
+    // up   flat/down any   CREST
+    // flat flat    down    DROPCOMING
+    // flat down    any     DROPCOMING2
+    // down flat    any     DOWNSLOPE
+    // down up      any     VALLEY
+
+    hillstate=FLATLAND;
+    if (!(track1[segment]&UPHILL) && !(track1[segment]&DOWNHILL)) {
+        // current segment FLAT
+        if (!(track1[segment+1]&UPHILL) && !(track1[segment+1]&DOWNHILL)) {
+            // next segment also FLAT
+            hillstate = FLATLAND; // unless changed, is FLAT
+            if (track1[segment+2]&UPHILL) hillstate = HILLCOMING;
+            if (track1[segment+2]&DOWNHILL) hillstate = DROPCOMING;
+        }
+
+        if (track1[segment+1]&UPHILL) hillstate = UPSLOPE;
+        if (track1[segment+1]&DOWNHILL) hillstate = DROPCOMING2;
+    } else {
+        // current segment is NOT FLAT
+        if (track1[segment]&DOWNHILL) {
+                hillstate = DOWNSLOPE; // unless it goes straight to upslope
+                if (track1[segment+1]&UPHILL) hillstate = VALLEY;
+            } else {
+                hillstate = CREST; // crest, unless
+                if (track1[segment+1]&UPHILL) hillstate = UPSLOPE;
+            }
+    }
+
+
+    switch (hillstate) {
+    case HILLCOMING:
+        nexthz = HORIZON - 3;
+        nexthill =250;
+        break;
+    case FLATLAND:
+        nexthz = HORIZON;
+        nexthill=256;
+        break;
+    case UPSLOPE:
+        nexthz = HORIZON - 11;
+        nexthill=210;
+        break;
+    case CREST:
+        nexthz = HORIZON + 6;
+        nexthill=512;
+        break;
+    case DROPCOMING:
+        nexthz = HORIZON + 3;
+        nexthill=400;
+        break;
+    case DROPCOMING2:
+        nexthz = HORIZON + 2;
+        nexthill=512;
+        break;
+    case DOWNSLOPE:
+        nexthz = HORIZON ;
+        nexthill=300;
+        break;
+    case VALLEY:
+        nexthz = HORIZON -4 ;
+        nexthill=300;
+        break;
+    default:
+        nexthz = HORIZON;
+        nexthill=256;
+    }
+
+    if (nexthz != dynamichz && z_world > nextz) {
+        if (dynamichz < nexthz) dynamichz++;
+        if (dynamichz > nexthz) dynamichz--;
+        nextz = z_world+ZTICKER;
+    }
+
+    if (nexthill != hilloffset && z_world > nexto) {
+        if (hilloffset < nexthill) {
+            hilloffset+=5;
+            if (hilloffset > nexthill) hilloffset = nexthill;
+            } else if (hilloffset > nexthill) {
+            hilloffset-=5;
+            if (hilloffset < nexthill) hilloffset = nexthill;
+            }
+
+        nexto = z_world+ZTICKER;
+    }
+
+
     if (segvisible) { // was 512
-        yTransition = HORIZON+1+(SEGLENGTH-ztemp)/8;
+        yTransition = dynamichz+1+(SEGLENGTH-ztemp)/8;
         q_step = YTABS;
         q_step *= 256; // some weird compiler bug
-        q_step = q_step/(yTransition-HORIZON);
+        q_step = q_step/(yTransition-dynamichz);
         // reset transition
         if (yTransition >= TVY) {
             segment++;
             segvisible = false;
-            yTransition = HORIZON;
+            yTransition = dynamichz;
         }
     }
 
@@ -134,6 +229,8 @@ void drawRoad() {
     if (track1[segment+1]&CURVERIGHT) {curvacceltop=1;}
     if (track1[segment+1]&CURVELEFT) {curvacceltop=-1;}
 
+    if (curvacceltop == curvaccelbot) easeout = false; // disable easeout
+
     // effect of road on car
     if (yTransition < TVY-25) {
         roadx += curvaccelbot*(zspeed/100);
@@ -143,23 +240,28 @@ void drawRoad() {
 
     // draw ground
     #ifdef GROUND
-    for (int screeny=TVY-1; screeny > HORIZON; screeny--) {
+    for (int screeny=TVY-1; screeny > dynamichz; screeny--) {
         int a,a2,b,b2,c,d,dx,zy,rumblew,poffset;
         int q = TVY-screeny; // define index for lookup
 
         poffset = roadx*xlookup[q]/DXDIV;
-        if (screeny < yTransition) {
+        if (screeny < yTransition && easeout) {
             // road ABOVE transition
             q_pointer = ((yTransition-screeny+1)*q_step)/256;
             if(q_pointer>YTABS) q_pointer=YTABS;
             curvoffset += curvacceltop*curvature[q_pointer];
+            q_pointer -= 6;
+            if (q_pointer<0) q_pointer =0;
         } else {
             // road BELOW transition
-            curvcount = yTransition - HORIZON;
-            q_pointer = q-curvcount;
+            curvcount = yTransition - dynamichz;
+            if (easeout) q_pointer = q-curvcount;
+            else q_pointer=q;
             if (q_pointer<0) q_pointer = 0;
             curvoffset += curvaccelbot*curvature[q_pointer];
         }
+
+        q=q*hilloffset/256;
 
         a = TVXCENTER - xlookup[q] + poffset + curvoffset;
         a2 = TVXCENTER - (xlookup[q]>>1) + poffset + curvoffset;
@@ -212,7 +314,7 @@ void drawRoad() {
     #endif
 
     #ifdef SEGMENTS
-        if (yTransition > HORIZON && yTransition <TVY ) {
+        if (yTransition > dynamichz && yTransition <TVY ) {
         TV.draw_line(0,yTransition,TVX,yTransition,1);
         }
     #endif // SEGMENTS
@@ -225,12 +327,12 @@ void drawRoad() {
         z = zspots[i];
 
         if (z < z_world+20) {
-            zspots[i] = z_world+ 1000; // push spot to horizon
+            zspots[i] = z_world+ 1000; // push spot to dynamichz
             x = xspots[i];
             z = zspots[i];
         }
 
-        y = (Y_CAMERA / (z-z_world)) + HORIZON;
+        y = (Y_CAMERA / (z-z_world)) + dynamichz;
         #ifdef CURVED
             coffset = curvature[TVY-y];
         #else
@@ -274,12 +376,12 @@ void drawRoad() {
         z = zcars[i];
 
         if (z < z_world-30) {
-            zcars[i] = z_world+ 1000*NUMCARS; // push spot to horizon
+            zcars[i] = z_world+ 1000*NUMCARS; // push spot to dynamichz
             x = xcars[i];
             z = zcars[i];
         }
         if(z-z_world==0) z++;
-        y = (Y_CAMERA / (z-z_world)) + HORIZON;
+        y = (Y_CAMERA / (z-z_world)) + dynamichz;
         #ifdef CURVED
             coffset = curvature[TVY-y-5];
         #else

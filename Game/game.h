@@ -15,7 +15,7 @@
 // GAME SETUP CONSTANTS
 
 #define SEGLENGTH   1024   // segment length = 2048
-#define SEGSLOWDOWN 2       // divide world z progress by 2^SEGSLOWDOWN to slow segment change
+#define SEGSLOWDOWN 0       // divide world z progress by 2^SEGSLOWDOWN to slow segment change
 #define ZLINES      2  // number of rumble segments
 #define ZSTEP       32  // length of rumble segments
 #define DXDIV       32  // Number of steps from centerline to roadside
@@ -25,10 +25,12 @@
 #define NUMCARS     4
 #define OTHERCARSSPEED 15
 
+#define XTRA        5       // Extra length for tables
+#define ZTICKER     20     // counter for hill transition speed
 #define ROADW       1600    // Road width in worldspace
-#define Y_CAMERA    1140    // Camera height for lookup table calculation
-#define Z_MULT      2       // Z multiplier
-#define YTABS       TVY-HORIZON+1   // lookup table sizes = how many y lines are checked
+#define Y_CAMERA    1140    // Camera height for lookup table calculation, was 1140
+#define Z_MULT      2       // Z multiplier, was 2
+#define YTABS       TVY-HORIZON+XTRA   // lookup table sizes = how many y lines are checked
 #define RUMBLEW     12      // Rumble width, higher number = thinner
 //#define RUMBLEOFFS  12      // define rumble offset from road side, higher = less
 
@@ -45,6 +47,17 @@
 #define NORMALROAD      0x00    // bit 7 NOT = normal road
 #define WIDEROAD        0x40    // bit 7 set = wide road
 #define SPLITROAD       0x80    // bit 8 set = split road
+
+// HILL STATE DEFINITIONS
+#define FLATLAND        0       // no hills visible
+#define HILLCOMING      1       // hill visible at segment + 2
+#define UPSLOPE         2       // going uphill
+#define CREST           3       // on hill crest
+#define DROPCOMING      4       // on hill crest
+#define DROPCOMING2     5       // on hill crest
+#define DOWNSLOPE       6       // going downhill towards flat
+#define VALLEY          7       // transition immediately to upslope
+
 
 // GAME LOOKUP TABLES
 
@@ -69,8 +82,8 @@ extern int yonscreen[NUMSPOTS];
 extern unsigned long z_world;
 extern int  z_car, zspeed, wheeltick, carx,cary,acceltick,
             deceltick, fumeframe, roadx,skytick,skyx,segment, osegment,
-            curvtime,curvcount,xaccel;
-extern byte lanes,car_dir;
+            curvtime,curvcount,xaccel,dynamichz;
+extern byte lanes,car_dir,hillstate;
 extern signed char wheeloffset;
 
 // GAME FUNCTIONS
