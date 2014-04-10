@@ -5,7 +5,7 @@
 #define GROUND
 #define RUMBLES
 #define CURVED
-#define SEGMENTS
+//#define SEGMENTS
 //#define ROADSIDE
 //#define TRAFFIC
 
@@ -21,8 +21,8 @@ int drawn=0;
 
 unsigned long z_world=0,nextz,nexto;
 int z_car=0,zspeed = 0, wheeltick=0, carx=TVXCENTER-16,cary=CARY,
-    acceltick=ACCELTIME, deceltick=1,fumeframe=0,roadx=0,skytick=0,
-    skyx=0,segment=0,osegment=0,curvtime=0,curvcount=0,xaccel=0,dynamichz=HORIZON;
+    acceltick=0, deceltick=1,fumeframe=0,roadx=0,skytick=0,
+    skyx=0,skyy=-1,segment=0,osegment=0,curvtime=0,curvcount=0,xaccel=0,dynamichz=HORIZON;
 
 int nexthill,nexthz,hilloffset=256;
 byte lanes=3,car_dir=UP,lastRoad,segvisible=false,curveover=true,hillstate;
@@ -34,7 +34,9 @@ signed char wheeloffset=0;
 //=========================================================================
 
 void drawSky(int x,int y){
-     TV.bitmap(x, y, sky);
+     //TV.bitmap(x, y, sky);
+    //if (x>TVX) x=TVX-x;
+     overlaybitmap(x,y,sky,0,0,0);
 }
 
 //=========================================================================
@@ -193,7 +195,7 @@ void drawRoad() {
     if (nexthz != dynamichz && z_world > nextz) {
         if (dynamichz < nexthz) dynamichz++;
         if (dynamichz > nexthz) dynamichz--;
-        nextz = z_world+ZTICKER;
+        nextz = z_world+ZTICKER*2;
     }
 
     if (nexthill != hilloffset && z_world > nexto) {
@@ -232,9 +234,9 @@ void drawRoad() {
     if (curvacceltop == curvaccelbot) easeout = false; // disable easeout
 
     // effect of road on car
-    if (yTransition < TVY-25) {
-        roadx += curvaccelbot*(zspeed/100);
-        } else if (yTransition < TVY-15) roadx += curvaccelbot*(zspeed/200);
+    if (yTransition < TVY-25 && zspeed>100) {
+        roadx += curvaccelbot*(1+zspeed/100);
+        } else if (yTransition < TVY-15 && zspeed>100) roadx += curvaccelbot*(1+zspeed/200);
 
 
 

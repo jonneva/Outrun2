@@ -12,7 +12,7 @@ extern int random(int, int);
 extern byte pgm_read_byte(unsigned char*);
 extern byte pgm_read_word(unsigned int*);
 
-extern void overlaybitmap(uint8_t, uint8_t, const unsigned char*,
+extern void overlaybitmap(int16_t, int16_t, const unsigned char*,
 				   uint16_t, uint8_t, uint8_t);
 extern void erasebitmap(uint8_t, uint8_t, const unsigned char*,
 				   uint16_t, uint8_t, uint8_t);

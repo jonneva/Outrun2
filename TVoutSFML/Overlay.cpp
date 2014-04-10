@@ -3,9 +3,8 @@
 
 // Bitmap overlay functions
 
-void overlaybitmap(uint8_t x, uint8_t y, const unsigned char * bmp,
+void overlaybitmap(int16_t x, int16_t y, const unsigned char * bmp,
 				   uint16_t i, uint8_t width, uint8_t lines) {
-
 	uint8_t temp, lshift, rshift, save, xtra;
 	uint16_t si = 0;
 
@@ -33,6 +32,7 @@ void overlaybitmap(uint8_t x, uint8_t y, const unsigned char * bmp,
 	}
 
 	for (uint8_t l = 0; l < lines; l++) {
+	  if (y+l >= 0)  {// added this to allow clipped sky
 	  si = ((y + l) % display.vres)*display.hres + x/8;
 	  //si = (y + l)*display.hres + x/8;
 	  if (width == 1)
@@ -56,11 +56,12 @@ void overlaybitmap(uint8_t x, uint8_t y, const unsigned char * bmp,
 	  }
 	  if (si % display.hres == 0) {
 	    // wrapped around to the left side
-	    si -= display.hres;
+	    si -= display.hres; // added *2 to make wrap on same row
 	  }
 	  if (rshift + xtra < 8)
 	    display.screen[si-1] |= (save & (0xff >> rshift + xtra));	//test me!!!
 	  display.screen[si] |= temp << lshift;
+	  } else {i+=width; }// increment bitmap pointe
 	}
 } // end of bitmap
 

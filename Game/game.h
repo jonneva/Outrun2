@@ -81,7 +81,7 @@ extern int yonscreen[NUMSPOTS];
 
 extern unsigned long z_world;
 extern int  z_car, zspeed, wheeltick, carx,cary,acceltick,
-            deceltick, fumeframe, roadx,skytick,skyx,segment, osegment,
+            deceltick, fumeframe, roadx,skytick,skyx,skyy,segment, osegment,
             curvtime,curvcount,xaccel,dynamichz;
 extern byte lanes,car_dir,hillstate;
 extern signed char wheeloffset;
