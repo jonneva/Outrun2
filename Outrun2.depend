@@ -969,15 +969,15 @@
 	<Arduino.h>
 	"game.h"
 
-1395247078 source:/home/jonne/Desktop/SFMLDev/Outrun2/Graphics/ferrari.cpp
+1397141498 source:/home/jonne/Desktop/SFMLDev/Outrun2/Graphics/ferrari.cpp
 	"ferrari.h"
 
-1395228138 /home/jonne/Desktop/SFMLDev/Outrun2/Graphics/ferrari.h
+1397141078 /home/jonne/Desktop/SFMLDev/Outrun2/Graphics/ferrari.h
 
 1395606860 source:/home/jonne/Desktop/SFMLDev/Outrun2/Graphics/sky2.cpp
 	"sky.h"
 
-1397134643 source:/home/jonne/Desktop/SFMLDev/Outrun2/main.cpp
+1397141095 source:/home/jonne/Desktop/SFMLDev/Outrun2/main.cpp
 	<SFML/Graphics.hpp>
 	"wrapper.h"
 	"TVout.h"
@@ -1048,7 +1048,7 @@
 1397131294 /home/jonne/Desktop/SFMLDev/Outrun2/Game/game.h
 	"wrapper.h"
 
-1397134678 source:/home/jonne/Desktop/SFMLDev/Outrun2/Game/game.cpp
+1397136057 source:/home/jonne/Desktop/SFMLDev/Outrun2/Game/game.cpp
 	"game.h"
 	"wrapper.h"
 	"sky.h"

@@ -235,8 +235,8 @@ void drawRoad() {
 
     // effect of road on car
     if (yTransition < TVY-25 && zspeed>100) {
-        roadx += curvaccelbot*(1+zspeed/100);
-        } else if (yTransition < TVY-15 && zspeed>100) roadx += curvaccelbot*(1+zspeed/200);
+        roadx += curvaccelbot*(zspeed/80);
+        } else if (yTransition < TVY-15 && zspeed>100) roadx += curvaccelbot*(zspeed/200);
 
 
 

@@ -62,9 +62,12 @@ void updateHUD(){
 void updatecar() {
     // draw car
     byte nothingpressed = true;
-    if (car_dir == UP) { overlaybitmap(carx,cary, ferrari_fwd, 0, 0, 0); TV.set_pixel(carx+13,cary+15,1); TV.set_pixel(carx+21,cary+15,1);}
+    /*if (car_dir == UP) { overlaybitmap(carx,cary, ferrari_fwd, 0, 0, 0); TV.set_pixel(carx+13,cary+15,1); TV.set_pixel(carx+21,cary+15,1);}
     if (car_dir == LEFT) { overlaybitmap(carx,cary, ferrari_left, 0, 0, 0); TV.set_pixel(carx+21,cary+15,1); TV.set_pixel(carx+20,cary+15,1);TV.set_pixel(carx+13,cary+15,1); TV.set_pixel(carx,cary+10,1);TV.set_pixel(carx,cary+11,1); }
-    if (car_dir == RIGHT) { overlaybitmap(carx,cary, ferrari_right, 0, 0, 0); TV.set_pixel (carx+13,cary+15,1); TV.set_pixel(carx+14,cary+15,1); TV.set_pixel(carx+20,cary+15,1); TV.set_pixel(carx+34,cary+10,1);TV.set_pixel(carx+34,cary+11,1); }
+    if (car_dir == RIGHT) { overlaybitmap(carx,cary, ferrari_right, 0, 0, 0); TV.set_pixel (carx+13,cary+15,1); TV.set_pixel(carx+14,cary+15,1); TV.set_pixel(carx+20,cary+15,1); TV.set_pixel(carx+34,cary+10,1);TV.set_pixel(carx+34,cary+11,1); }*/
+    if (car_dir == UP) { alphabitmap(carx,cary, ferrari_fwd, ferrari_alpha); TV.set_pixel(carx+13,cary+15,1); TV.set_pixel(carx+21,cary+15,1);}
+    if (car_dir == LEFT) { alphabitmap(carx,cary, ferrari_left, ferrari_alpha_left); TV.set_pixel(carx+21,cary+15,1); TV.set_pixel(carx+20,cary+15,1);TV.set_pixel(carx+13,cary+15,1); TV.set_pixel(carx,cary+10,1);TV.set_pixel(carx,cary+11,1); }
+    if (car_dir == RIGHT) { alphabitmap(carx,cary, ferrari_right, ferrari_alpha_right); TV.set_pixel (carx+13,cary+15,1); TV.set_pixel(carx+14,cary+15,1); TV.set_pixel(carx+20,cary+15,1); TV.set_pixel(carx+34,cary+10,1);TV.set_pixel(carx+34,cary+11,1); }
     car_dir = UP; // face forward unless left or right is pressed
     wheeloffset = 0;
 
@@ -77,23 +80,31 @@ void updatecar() {
     if (Controller.downPressed()) {
         zspeed-=15;
         nothingpressed = false;
-        fumeframe = 9;
-        acceltick = 1;
-    }
+        if (zspeed>0 ) { fumeframe = 9; acceltick = 1;}
+        //brakelights !!
+        TV.set_pixel(carx+5,cary+10,1);
+        TV.set_pixel(carx+29,cary+10,1);
+        }
     if (zspeed<0) zspeed = 0;
     if (zspeed>293) zspeed = 293;
     if (Controller.leftPressed()) {
-            roadx+=(1+zspeed/100);
+            roadx+=(zspeed/100);
             car_dir = LEFT;
             wheeloffset = -1;
-            if (zspeed>100 && acceltick==0) acceltick = ACCELTIME/4;
+            if (zspeed>180 && acceltick==0) {
+                acceltick = ACCELTIME/4;
+                zspeed-=5; // decelerate due to hard cornering
+            }
             nothingpressed = false;
             }
     if (Controller.rightPressed()) {
-            roadx-=(1+zspeed/100);
+            roadx-=(zspeed/100);
             car_dir = RIGHT;
             wheeloffset = 1;
-            if (zspeed>100 && acceltick==0) acceltick = ACCELTIME/4;
+            if (zspeed>180 && acceltick==0) {
+                acceltick = ACCELTIME/4;
+                zspeed-=5; // decelerate due to hard cornering
+            }
             nothingpressed = false;
     }
 
